@@ -1,45 +1,9 @@
+using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum Action
-{
-    Idle,
-    Attack,
-    Block,
-    Dodge,
-    Move
-}
-
-public enum Attack
-{
-    Bite,
-    Scratch,
-    Spit
-}
-
-public enum Block
-{
-    Head,
-    Body,
-    Legs
-}
-
-public enum Dodge
-{
-    Left,
-    Right
-}
-
-public enum Move
-{
-    Circle,
-    Random,
-    Towards,
-    Away,
-    Target
-}
 
 public enum Strategy
 {
@@ -48,25 +12,15 @@ public enum Strategy
     Evasive
 }
 
-public class ActionContext
-{
-    public Action action;
-    public Attack attack;
-    public Strategy strategy;
-    public Vector3 targetPosition;
-    public float minRadius;
-    public float maxRadius;
-    public bool rotateClockwise;
-}
-
 public class BeastController : MonoBehaviour
 {
     public bool isPlayer;
     public List<GameObject> enemyBeasts;
-    public List<Action> availableActions;
-    public Queue<Action> actionQueue;
     public Strategy strategy;
-    public Action currentAction;
+    public TMP_Text healthText;
+
+    public State currentState;
+
     public bool rotateClockwise;
     public float health;
     public float attack;
@@ -78,13 +32,21 @@ public class BeastController : MonoBehaviour
     public float engageRange;
     public float attackRange;
 
-    public bool stateTransitioned = false;
-
-    NavMeshAgent navAgent;
+    public NavMeshAgent navAgent;
 
     public bool isFlickerEnabled = false;
 
-    IEnumerator colorFlickerRoutine()
+    public bool IsWithinEngageRange()
+    {
+        return Vector3.Distance(transform.position, enemyBeasts[0].transform.position) < engageRange;
+    }
+
+    public bool IsWithinAttackRange()
+    {
+        return Vector3.Distance(transform.position, enemyBeasts[0].transform.position) < attackRange;
+    }
+
+    public IEnumerator ColorFlickerRoutine()
     {
         while (isFlickerEnabled == true)
         {
@@ -96,13 +58,13 @@ public class BeastController : MonoBehaviour
         }
     }
 
-    public void enableFlicker()
+    public void EnableFlicker()
     {
         isFlickerEnabled = true;
-        StartCoroutine(colorFlickerRoutine());
+        StartCoroutine(ColorFlickerRoutine());
     }
 
-    Vector3 GetRandomTargetPosition(Vector3 center, float minRadius, float maxRadius)
+    public Vector3 GetRandomTargetPosition(Vector3 center, float minRadius, float maxRadius)
     {
         Vector2 rndPos = Random.insideUnitCircle * (maxRadius - minRadius);
         rndPos += rndPos.normalized * minRadius;
@@ -116,6 +78,7 @@ public class BeastController : MonoBehaviour
         navAgent = GetComponent<NavMeshAgent>();
         color = GetComponent<Renderer>().material.color;
         windup = Random.Range(0.5f, 1.5f);
+        healthText.text = health.ToString();
 
         // Get all the enemy beasts with tag beast except the one that is attached to this script
         GameObject[] beasts = GameObject.FindGameObjectsWithTag("Beast");
@@ -130,21 +93,7 @@ public class BeastController : MonoBehaviour
         // Set the strategy
         strategy = Strategy.Aggressive;
 
-        // Set the available actions
-        availableActions.Add(Action.Attack);
-        availableActions.Add(Action.Block);
-        availableActions.Add(Action.Dodge);
-        availableActions.Add(Action.Move);
-
-        // Set the action queue
-        actionQueue = new Queue<Action>();
-        actionQueue.Enqueue(Action.Attack);
-        actionQueue.Enqueue(Action.Block);
-        actionQueue.Enqueue(Action.Dodge);
-        actionQueue.Enqueue(Action.Move);
-        
-        // Set the current action
-        // currentAction = actionQueue.Dequeue();
+        SetState(new MoveState(this));
     }
 
     // Update is called once per frame
@@ -161,93 +110,26 @@ public class BeastController : MonoBehaviour
             }
         }
 
-        switch (currentAction)
-        {
-            case Action.Idle:
-                break;
-            case Action.Attack:
-                // Attack the enemy
-                if (enemyBeasts.Count > 0)
-                {
-                    Vector3 enemyPosition = enemyBeasts[0].transform.position;
-                    transform.LookAt(enemyPosition);
-                    if (Vector3.Distance(transform.position, enemyPosition) > attackRange)
-                    {
-                        // Move towards the enemy
-                        currentAction = Action.Move;
-                        windup = Random.Range(0.5f, 1.5f);
-                        cooldown = 0;
-                    }
-                    else
-                    {
-                        if (cooldown > 0)
-                        {
-                            cooldown -= Time.deltaTime;
-                            break;
-                        }
-                        else
-                        {
-                            if (windup > 0)
-                            {
-                                windup -= Time.deltaTime;
-                                break;
-                            }
-                            else
-                            {
-                                enemyBeasts[0].GetComponent<BeastController>().hit(attack);
-                                enemyBeasts[0].GetComponent<BeastController>().enableFlicker();
-                                cooldown = 2; // in seconds
-                                currentAction = Action.Move;
-                                stateTransitioned = true;
-                                navAgent.SetDestination(GetRandomTargetPosition(enemyPosition, engageRange, engageRange * 2));
-                                windup = Random.Range(0.5f, 1.5f);
-                            }
-                        }
-                    }
-                    stateTransitioned = false;
-                }
-                break;
-            case Action.Block:
-                break;
-            case Action.Dodge:
-                break;
-            case Action.Move:
-                // Move NavAgent circle around the enemy
-                if (enemyBeasts.Count > 0)
-                {
-                    Vector3 enemyPosition = enemyBeasts[0].transform.position;
-                    transform.LookAt(enemyPosition);
-
-                    if (Vector3.Distance(transform.position, enemyPosition) < attackRange) {
-                        currentAction = Action.Attack;
-                        stateTransitioned = true;
-                    } else if (Vector3.Distance(transform.position, enemyPosition) > engageRange) {
-                        // Move towards the enemy
-                        Vector3 direction = enemyPosition - transform.position;
-                        direction.Normalize();
-                        Vector3 newPosition = enemyPosition + direction * 5;
-                        // if (navAgent.remainingDistance < 1) {
-                            navAgent.SetDestination(newPosition);
-                        // }
-                    } else {
-                    // Rotate to face the enemy
-                        // transform.RotateAround(enemyPosition, Vector3.up, (rotateClockwise ? 20 : -20) * Time.deltaTime);
-                        if ((navAgent.remainingDistance < engageRange && stateTransitioned == true) || (navAgent.remainingDistance < 1)) {
-                            navAgent.SetDestination(GetRandomTargetPosition(enemyPosition, attackRange, engageRange));
-                        }
-                    }
-
-                }
-                stateTransitioned = false;
-                break;
-            default:
-                break;
-        }
+        currentState.Tick();
     }
 
-    void hit(float damage)
+    public void SetState(State state)
+    {
+        if (currentState != null)
+            currentState.OnStateExit();
+
+        currentState = state;
+        gameObject.name = "Beast - " + state.GetType().Name;
+
+        if (currentState != null)
+            currentState.OnStateEnter();
+    }
+
+    public void Hit(float damage)
     {
         health -= damage;
+        // Get text element with name "BeastHP" and set its text to health
+        healthText.text = health.ToString();
         if (health <= 0)
         {
             Destroy(gameObject);

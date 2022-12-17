@@ -1639,14 +1639,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayer: 1
   enemyBeasts: []
-  availableActions: 
   strategy: 0
-  currentAction: 0
   rotateClockwise: 0
   health: 100
   attack: 10
-  engageRange: 20
-  attackRange: 10
+  color: {r: 0, g: 0, b: 0, a: 0}
+  cooldown: 0
+  windup: 0
+  engageRange: 10
+  attackRange: 5
+  navAgent: {fileID: 0}
+  isFlickerEnabled: 0
 --- !u!1 &1160234425
 GameObject:
   m_ObjectHideFlags: 0
@@ -2449,14 +2452,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayer: 1
   enemyBeasts: []
-  availableActions: 
   strategy: 0
-  currentAction: 4
   rotateClockwise: 0
   health: 100
   attack: 10
-  engageRange: 20
-  attackRange: 10
+  color: {r: 0, g: 0, b: 0, a: 0}
+  cooldown: 0
+  windup: 0
+  engageRange: 10
+  attackRange: 5
+  navAgent: {fileID: 0}
+  isFlickerEnabled: 0
 --- !u!1 &1950769469
 GameObject:
   m_ObjectHideFlags: 0
