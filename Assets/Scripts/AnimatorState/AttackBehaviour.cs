@@ -33,7 +33,19 @@ public class AttackBehaviour : StateMachineBehaviour
     {
         animator.transform.LookAt(enemy);
         float distance = Vector3.Distance(animator.transform.position, enemy.position);
-        if (distance < 20)
+        if (distance < 2)
+        {
+            int chooseAbility = Random.Range(1,3);
+
+            if (chooseAbility == 1)
+            {
+                animator.SetBool("abilityFlame", true);
+            }
+            else if (chooseAbility == 2)
+            {
+                animator.SetBool("abilitySwipe", true);
+            }
+        }
             animator.SetBool("isAttacking", false);
     }
 

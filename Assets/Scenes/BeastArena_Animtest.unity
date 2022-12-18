@@ -2363,6 +2363,8 @@ MonoBehaviour:
   attackRange: 5
   navAgent: {fileID: 0}
   isFlickerEnabled: 0
+  block: 0
+  blockTimer: 0
 --- !u!95 &983494814
 Animator:
   serializedVersion: 5
@@ -2895,7 +2897,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1408822252
 Transform:
   m_ObjectHideFlags: 0
@@ -3946,6 +3948,8 @@ MonoBehaviour:
   attackRange: 5
   navAgent: {fileID: 0}
   isFlickerEnabled: 0
+  block: 0
+  blockTimer: 0
 --- !u!95 &1940770737
 Animator:
   serializedVersion: 5
