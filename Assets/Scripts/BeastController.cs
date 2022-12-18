@@ -35,6 +35,8 @@ public class BeastController : MonoBehaviour
     public NavMeshAgent navAgent;
 
     public bool isFlickerEnabled = false;
+    public bool block = false;
+    public float blockTimer = 0;
 
     public bool IsWithinEngageRange()
     {
@@ -110,6 +112,24 @@ public class BeastController : MonoBehaviour
             }
         }
 
+        if (blockTimer > 0) {
+            blockTimer -= Time.deltaTime;
+        } else {
+            block = false;
+        }
+
+        if (enemyBeasts[0].GetComponent<BeastController>().currentState is AttackState && currentState is not AttackState && !block)
+        {
+            if (Random.Range(0, 2) == 0 && IsWithinAttackRange())
+            {
+                SetState(new AttackState(this));
+            } else {
+                block = true;
+                blockTimer = 2;
+                SetState(new MoveState(this));
+            }
+        }
+
         currentState.Tick();
     }
 
@@ -127,6 +147,16 @@ public class BeastController : MonoBehaviour
 
     public void Hit(float damage)
     {
+        if (block) {
+            block = false;
+            return;
+        }
+
+        // if (strategy == Strategy.Defensive)
+        //     damage = damage / 2;
+        // else if (strategy == Strategy.Evasive)
+        //     damage = damage * 2;
+        
         health -= damage;
         // Get text element with name "BeastHP" and set its text to health
         healthText.text = health.ToString();

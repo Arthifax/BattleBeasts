@@ -8,37 +8,42 @@ public class AttackState : State
     {}
     public override void Tick() {
         // Attack the enemy
-        if (beast.enemyBeasts.Count > 0)
+        if (beast.enemyBeasts.Count <= 0) return;
+        
+        Vector3 enemyPosition = beast.enemyBeasts[0].transform.position;
+        beast.transform.LookAt(enemyPosition);
+        
+        if (!beast.IsWithinAttackRange())
         {
-            Vector3 enemyPosition = beast.enemyBeasts[0].transform.position;
-            beast.transform.LookAt(enemyPosition);
-            if (!beast.IsWithinAttackRange())
+            if (beast.IsWithinEngageRange())
+                beast.SetState(new EngageState(beast));
+            else 
+                beast.SetState(new MoveState(beast));
+        }
+
+        if (beast.IsWithinAttackRange())
+        {
+            if (beast.cooldown > 0)
             {
-                if (beast.IsWithinEngageRange())
-                    beast.SetState(new EngageState(beast));
-                else 
-                    beast.SetState(new MoveState(beast));
+                beast.cooldown -= Time.deltaTime;
+                return;
             }
-            else
+
+            if (beast.cooldown <= 0)
             {
-                if (beast.cooldown > 0)
+                if (beast.windup > 0)
                 {
-                    beast.cooldown -= Time.deltaTime;
+                    beast.windup -= Time.deltaTime;
+                    return;
                 }
-                else
+
+                if (beast.windup <= 0)
                 {
-                    if (beast.windup > 0)
-                    {
-                        beast.windup -= Time.deltaTime;
-                    }
-                    else
-                    {
-                        beast.enemyBeasts[0].GetComponent<BeastController>().Hit(beast.attack);
-                        beast.enemyBeasts[0].GetComponent<BeastController>().EnableFlicker();
-                        beast.cooldown = 2; // in seconds
-                        beast.SetState(new MoveState(beast));
-                        beast.navAgent.SetDestination(beast.GetRandomTargetPosition(enemyPosition, beast.engageRange, beast.engageRange * 2));
-                    }
+                    beast.enemyBeasts[0].GetComponent<BeastController>().Hit(beast.attack);
+                    beast.enemyBeasts[0].GetComponent<BeastController>().EnableFlicker();
+                    beast.cooldown = 2; // in seconds
+                    beast.SetState(new MoveState(beast));
+                    beast.navAgent.SetDestination(beast.GetRandomTargetPosition(enemyPosition, beast.engageRange, beast.engageRange * 2));
                 }
             }
         }
