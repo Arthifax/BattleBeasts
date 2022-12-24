@@ -2,25 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EngageState : State
+public class EngagingState : State
 {
     private float engageTimer = 0;
     private bool isAttacking = false;
 
-    public EngageState(BeastController beast) : base(beast)
+    public EngagingState(BeastController beast) : base(beast)
     {
     }
     public override void Tick() {
-        Vector3 enemyPosition = beast.enemyBeasts[0].transform.position;
+        Vector3 enemyPosition = beast.targetBeast.transform.position;
         if (engageTimer > 0) {
-            beast.transform.RotateAround(enemyPosition, Vector3.up, (beast.rotateClockwise ? 20 : -20) * Time.deltaTime);
+            beast.transform.RotateAround(enemyPosition, Vector3.forward, (beast.rotateClockwise ? 20 : -20) * Time.deltaTime);
             engageTimer -= Time.deltaTime;
             return;
         }
 
         if (isAttacking) {
             beast.navAgent.SetDestination(enemyPosition);
-            beast.SetState(new AttackState(beast));
+            beast.SetState(new AttackingState(beast));
         } else {
             // beast.navAgent.SetDestination();
             // Move away from the enemy
@@ -28,7 +28,7 @@ public class EngageState : State
             direction.Normalize();
             Vector3 newPosition = beast.transform.position + direction * 5;
             beast.navAgent.SetDestination(newPosition);
-            beast.SetState(new MoveState(beast));
+            beast.SetState(new MovingState(beast));
         }
         
         // if ((beast.navAgent.remainingDistance < beast.engageRange && beast.stateTransitioned == true) || (beast.navAgent.remainingDistance < 1)) {

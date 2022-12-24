@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Beast
   - BeastHP
+  - Attack
+  - QueueText
   layers:
   - Default
   - TransparentFX

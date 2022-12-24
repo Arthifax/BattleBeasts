@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoamState : State
+public class RoamingState : State
 {
-    public RoamState(BeastController beast) : base(beast)
+    public RoamingState(BeastController beast) : base(beast)
     {
     }
     public override void Tick() {

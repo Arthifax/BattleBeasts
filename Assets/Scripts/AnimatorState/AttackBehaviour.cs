@@ -7,7 +7,7 @@ public class AttackBehaviour : StateMachineBehaviour
 {
 
     NavMeshAgent agent;
-    public List<GameObject> enemyBeasts;
+    BeastController beast;
     Transform enemy;
 
 
@@ -15,38 +15,30 @@ public class AttackBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         agent = animator.GetComponent<NavMeshAgent>();
+        beast = animator.GetComponent<BeastController>();
 
-        GameObject[] beasts = GameObject.FindGameObjectsWithTag("Beast");
-        foreach (GameObject beast in beasts)
-        {
-            if (beast != agent.gameObject)
-            {
-                enemyBeasts.Add(beast);
-            }
-        }
-
-        enemy = enemyBeasts[0].transform;
+        enemy = beast.targetBeast.transform;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.transform.LookAt(enemy);
-        float distance = Vector3.Distance(animator.transform.position, enemy.position);
-        if (distance < 2)
-        {
-            int chooseAbility = Random.Range(1,3);
+        // animator.transform.LookAt(enemy);
+        // float distance = Vector3.Distance(animator.transform.position, enemy.position);
+        // if (distance < 2)
+        // {
+        //     int chooseAbility = Random.Range(1,3);
 
-            if (chooseAbility == 1)
-            {
-                animator.SetBool("abilityFlame", true);
-            }
-            else if (chooseAbility == 2)
-            {
-                animator.SetBool("abilitySwipe", true);
-            }
-        }
-            animator.SetBool("isAttacking", false);
+        //     if (chooseAbility == 1)
+        //     {
+        //         animator.SetBool("abilityFlame", true);
+        //     }
+        //     else if (chooseAbility == 2)
+        //     {
+        //         animator.SetBool("abilitySwipe", true);
+        //     }
+        // }
+        // animator.SetBool("isAttacking", false);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
