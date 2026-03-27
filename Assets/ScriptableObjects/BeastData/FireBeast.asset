@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3eef7e28443c1cf44ae667d80431c3b5, type: 3}
+  m_Name: FireBeast
+  m_EditorClassIdentifier: Assembly-CSharp::BattleBeasts.BeastData
+  speciesName: FireBeast
+  beastType: 0
+  baseStats:
+    maxHP: 95
+    attack: 13
+    defense: 9
+    specialAttack: 15
+    specialDefense: 10
+    reflexes: 14
+    agility: 13
+  basicAttack: {fileID: 11400000, guid: 94661dde0292bb5488bc434766f16e88, type: 2}
+  specialAbility: {fileID: 11400000, guid: 0166495bc8b563148af8af32317e2ab4, type: 2}
+  defaultStrategy: 1
+  aggressionBias: 0.5
+  cautionBias: 0.5
+  beastPrefab: {fileID: 0}
+  portrait: {fileID: 0}
