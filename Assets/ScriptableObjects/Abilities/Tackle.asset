@@ -16,15 +16,15 @@ MonoBehaviour:
   type: 3
   damageCategory: 0
   executionType: 0
-  power: 20
+  power: 15
   range: 4
   blastRadius: 1.5
-  windupTime: 0.75
-  recoveryTime: 0.4
-  cooldown: 2
+  windupTime: 0.55
+  recoveryTime: 0.7
+  cooldown: 3
   projectilePrefab: {fileID: 0}
   projectileSpeed: 8
-  dashDistance: 1.75
+  dashDistance: 4
   dashSpeed: 10
   selfBuffMultiplier: 1.2
   selfBuffDuration: 3

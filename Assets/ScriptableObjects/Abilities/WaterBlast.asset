@@ -17,11 +17,11 @@ MonoBehaviour:
   damageCategory: 1
   executionType: 1
   power: 20
-  range: 4
-  blastRadius: 1.5
-  windupTime: 0.75
-  recoveryTime: 0.4
-  cooldown: 2
+  range: 10
+  blastRadius: 5
+  windupTime: 2
+  recoveryTime: 1
+  cooldown: 8
   projectilePrefab: {fileID: 2971196946398665119, guid: 2cc124d8c677f85438d77c2c3b32badf, type: 3}
   projectileSpeed: 8
   dashDistance: 1.75
