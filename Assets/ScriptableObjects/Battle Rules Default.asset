@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a95e5417e37cf345b88dd468cdc0149, type: 3}
+  m_Name: Battle Rules Default
+  m_EditorClassIdentifier: Assembly-CSharp::BattleBeasts.BattleRulesData
+  gridWidth: 35
+  gridHeight: 17
+  tileSize: 1
+  gridOrigin: {x: 0, y: 0, z: 0}
+  commandSlowMoScale: 0.4
+  defaultMoveRecovery: 0.15
+  dodgeRecovery: 0.35
+  enemyDecisionInterval: 1.2
+  enemyPostActionDelay: 1.8
+  telegraphHeight: 0.03

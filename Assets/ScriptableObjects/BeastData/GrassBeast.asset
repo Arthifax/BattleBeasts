@@ -9,23 +9,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3eef7e28443c1cf44ae667d80431c3b5, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f8ff029cb324cc48a69bff0b466d7cb, type: 3}
   m_Name: GrassBeast
   m_EditorClassIdentifier: Assembly-CSharp::BattleBeasts.BeastData
   speciesName: GrassBeast
   beastType: 2
   baseStats:
-    maxHP: 102
-    attack: 12
-    defense: 11
-    specialAttack: 12
-    specialDefense: 13
-    reflexes: 12
-    agility: 11
-  basicAttack: {fileID: 11400000, guid: 94661dde0292bb5488bc434766f16e88, type: 2}
-  specialAbility: {fileID: 11400000, guid: 5afd222a122da1541abdabcd62f4e4af, type: 2}
-  defaultStrategy: 0
-  aggressionBias: 0.5
-  cautionBias: 0.5
-  beastPrefab: {fileID: 0}
-  portrait: {fileID: 0}
+    maxHP: 110
+    attack: 10
+    defense: 10
+    specialAttack: 15
+    specialDefense: 15
+    reflexes: 8
+    agility: 9
+  basicAttack: {fileID: 11400000, guid: f43f9f2c366e3ff4ea5c41e668abc866, type: 2}
+  specialAbility: {fileID: 11400000, guid: 54380484a39d75b44b332965739ed988, type: 2}
+  moveSpeedTilesPerSecond: 7
+  defaultApproachRangeInTiles: 3
+  dodgeDistanceInTiles: 4
+  autoDodgeChance: 0.6
+  aggressionBias: 0.6
+  cautionBias: 0.4

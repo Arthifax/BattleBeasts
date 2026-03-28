@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df1be5805e18c8e4b8b4742834794225, type: 3}
-  m_Name: Tackle
+  m_Name: Grass Knot
   m_EditorClassIdentifier: Assembly-CSharp::BattleBeasts.AbilityData
-  abilityName: Tackle
-  type: 3
-  damageCategory: 0
-  power: 20
-  rangeInTiles: 3
-  impactRadiusInTiles: 0.5
-  windupTime: 0.75
-  recoveryTime: 0.4
-  cooldown: 2
-  telegraphColor: {r: 1, g: 0.78977096, b: 0.1490196, a: 0.5}
+  abilityName: Grass Knot
+  type: 2
+  damageCategory: 1
+  power: 25
+  rangeInTiles: 8
+  impactRadiusInTiles: 3
+  windupTime: 3
+  recoveryTime: 1
+  cooldown: 8
+  telegraphColor: {r: 0.16354193, g: 1, b: 0.1490196, a: 0.5}
